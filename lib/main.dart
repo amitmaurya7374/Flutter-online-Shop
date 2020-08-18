@@ -1,6 +1,8 @@
+import 'package:Online_shop/provider/products_provider.dart';
 import 'package:Online_shop/screens/product_detail_screen.dart';
 import 'package:Online_shop/screens/product_overview_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,16 +11,22 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: Colors.deepPurple,
-        accentColor: Colors.purple,
+    //this is a data container
+    //we register a provider
+    return ChangeNotifierProvider(
+      create: (context) =>
+          Products(), //it should return a new instance of provided class
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: Colors.deepPurple,
+          accentColor: Colors.purple,
+        ),
+        home: ProductOverViewScreen(),
+        routes: {
+          ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
+        },
       ),
-      home: ProductOverViewScreen(),
-      routes: {
-        ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
-      },
     );
   }
 }
