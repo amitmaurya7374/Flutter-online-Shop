@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primaryColor: Colors.deepPurple,
+          primaryColor: Colors.teal,
           accentColor: Colors.purple,
         ),
         home: ProductOverViewScreen(),
