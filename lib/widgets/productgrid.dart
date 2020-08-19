@@ -24,10 +24,15 @@ class ProductGrid extends StatelessWidget {
       itemBuilder: (context, index) => Material(
         elevation: 20.0,
         borderRadius: BorderRadius.circular(20.0),
-        child: ProductItem(
-          id: products[index].id,
-          title: products[index].title,
-          imageUrl: products[index].imageUrl,
+        child: ChangeNotifierProvider(
+          create: (context) => products[
+              index], //i did this because i already created an instance of Product in Products class
+          child: ProductItem(
+              //As we use provider we don't need to pass argument any more
+              // id: products[index].id,
+              // title: products[index].title,
+              // imageUrl: products[index].imageUrl,
+              ),
         ),
       ), //this will tell us what should be display on the screen
       itemCount: products.length,

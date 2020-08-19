@@ -4,7 +4,7 @@
 //then add a mixin by using with Keywaord
 //And the mixin is ChangeNotifier class
 
-import 'package:Online_shop/models/product.dart';
+import 'package:Online_shop/provider/product.dart';
 import 'package:flutter/material.dart';
 
 class Products with ChangeNotifier {
@@ -46,5 +46,9 @@ class Products with ChangeNotifier {
   //access this we add a getter which return a new list
   List<Product> get items {
     return [..._items]; //return a copy of a list
+  }
+
+  Product findById(String id) {
+    return _items.firstWhere((prod) => prod.id == id);
   }
 }
