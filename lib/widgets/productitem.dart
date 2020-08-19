@@ -4,17 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ProductItem extends StatelessWidget {
-  // final String id;
-  // final String title;
-  // final String imageUrl;
-  // ProductItem({
-  //   this.id,
-  //   this.imageUrl,
-  //   this.title,
-  // });
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Product>(context);
+    final product = Provider.of<Product>(context, listen: false);
+    print('provider rebuilds');
     return ClipRRect(
       borderRadius: BorderRadius.circular(12.0),
       child: GridTile(
@@ -43,14 +36,19 @@ class ProductItem extends StatelessWidget {
             ),
             onPressed: () => print('show cart page'),
           ),
-          trailing: IconButton(
-            icon: Icon(
-              product.isFavorite ? Icons.favorite : Icons.favorite_border,
-              color: Colors.deepOrange,
+          trailing: Consumer<Product>(
+            //consumer only rebuild the sub part of the tree
+            //when there i no need to rebuild entire tree
+            //it also have child argument which does not rebuild that part
+            builder: (context, value, _) => IconButton(
+              icon: Icon(
+                product.isFavorite ? Icons.favorite : Icons.favorite_border,
+                color: Colors.deepOrange,
+              ),
+              onPressed: () {
+                product.toogleFavorites();
+              },
             ),
-            onPressed: () {
-              product.toogleFavorites();
-            },
           ),
         ),
       ),
