@@ -45,28 +45,33 @@ class Products with ChangeNotifier {
     Product(
         id: 'p5',
         title: 'Warn fur coat',
-        description: 'So Confortable',
+        description: 'So Comfortable',
         price: 200,
         imageUrl:
             'https://cdn.21buttons.com/posts/1080x1350/0cb76f71f64349fbb012f3849df4f7a3_1080x1350.jpg'),
   ]; // this is  a list which is only  accessable here
   //access this we add a getter which return a new list
-  var _showFavoritesOnly = false;
+  // var _showFavoritesOnly = false;
   List<Product> get items {
-    if (_showFavoritesOnly) {
-      return _items.where((prodItem) => prodItem.isFavorite).toList();
-    }
+    //this will apply filter in whole app
+    // if (_showFavoritesOnly) {
+    //   return _items.where((prodItem) => prodItem.isFavorite).toList();
+    // }
     return [..._items]; //return a copy of a list
   }
 
-  void showOnlyFavorites() {
-    _showFavoritesOnly = true;
-    notifyListeners();
-  }
+  // void showOnlyFavorites() {
+  //   _showFavoritesOnly = true;
+  //   notifyListeners();
+  // }
 
-  void showAll() {
-    _showFavoritesOnly = false;
-    notifyListeners();
+  // void showAll() {
+  //   _showFavoritesOnly = false;
+  //   notifyListeners();
+  // }
+
+  List<Product> get favoriteItems {
+    return _items.where((element) => element.isFavorite).toList();
   }
 
   Product findById(String id) {

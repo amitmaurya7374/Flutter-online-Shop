@@ -1,19 +1,25 @@
 //this will show over all product on a screen
 
-import 'package:Online_shop/provider/products_provider.dart';
 import 'package:Online_shop/widgets/productgrid.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 enum FilterOptions {
   Favorites,
   All,
 }
 
-class ProductOverViewScreen extends StatelessWidget {
+class ProductOverViewScreen extends StatefulWidget {
+  @override
+  _ProductOverViewScreenState createState() => _ProductOverViewScreenState();
+}
+
+class _ProductOverViewScreenState extends State<ProductOverViewScreen> {
+  var _showOnlyFavorite = false;
   @override
   Widget build(BuildContext context) {
-    final productContainer = Provider.of<Products>(context);
+    // final productContainer = Provider.of<Products>(context,
+    // listen: false); //i only wnat to get that data
+
     return Scaffold(
       appBar: AppBar(
         title: Text('My Shop'),
@@ -21,11 +27,15 @@ class ProductOverViewScreen extends StatelessWidget {
           //creates a button that show a pop upmenu
           PopupMenuButton(
             onSelected: (FilterOptions selectedValue) {
-              if (selectedValue == FilterOptions.Favorites) {
-                productContainer.showOnlyFavorites();
-              } else {
-                productContainer.showAll();
-              }
+              setState(() {
+                if (selectedValue == FilterOptions.Favorites) {
+                  // productContainer.showOnlyFavorites();
+                  _showOnlyFavorite = true;
+                } else {
+                  // productContainer.showAll();
+                  _showOnlyFavorite = false;
+                }
+              });
             },
             icon: Icon(Icons.more_vert),
             itemBuilder: (_) => [
@@ -52,7 +62,7 @@ class ProductOverViewScreen extends StatelessWidget {
             end: Alignment.bottomRight,
           ),
         ),
-        child: ProductGrid(),
+        child: ProductGrid(_showOnlyFavorite),
       ),
     );
   }

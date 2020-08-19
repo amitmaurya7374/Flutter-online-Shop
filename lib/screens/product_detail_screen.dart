@@ -33,6 +33,47 @@ class ProductDetailScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(loadedProduct.title),
       ),
+      body: ListView(
+        children: [
+          Container(
+            height: 400,
+            width: double.infinity,
+            child: Image.network(
+              loadedProduct.imageUrl,
+              fit: BoxFit.cover,
+            ),
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+          Container(
+            alignment: Alignment.center,
+            child: Text(
+              loadedProduct.description,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+          Container(
+            alignment: Alignment.center,
+            child: Text(
+              loadedProduct.price.toString(),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 17,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
