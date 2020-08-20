@@ -83,7 +83,10 @@ class CartScreen extends StatelessWidget {
               child: ListView.builder(
                 itemCount: cart.itemCount,
                 itemBuilder: (context, index) => CartItems(
-                  id: cart.items.values.toList()[index].id,
+                  id: cart.items.values
+                      .toList()[index]
+                      .id, //to access the value from  a map and then convert it inot a list
+                  productId: cart.items.keys.toList()[index],
                   title: cart.items.values.toList()[index].title,
                   price: cart.items.values.toList()[index].price,
                   quantity: cart.items.values.toList()[index].quantity,
