@@ -31,13 +31,33 @@ class CartItems extends StatelessWidget {
                   content: Text('Delete'),
                   actions: [
                     RaisedButton(
-                      child: Text('Cancel'),
+                      elevation: 10.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      color: Colors.deepPurple,
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
                       onPressed: () {
                         Navigator.pop(context);
                       },
                     ),
                     RaisedButton(
-                      child: Text('Ok'),
+                      elevation: 10.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      color: Colors.deepPurple,
+                      child: Text(
+                        'Ok',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
                       onPressed: () {
                         Provider.of<Cart>(context, listen: false)
                             .removeItem(productId);
