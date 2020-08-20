@@ -1,3 +1,4 @@
+import 'package:Online_shop/provider/cart.dart';
 import 'package:Online_shop/provider/products_provider.dart';
 import 'package:Online_shop/screens/product_detail_screen.dart';
 import 'package:Online_shop/screens/product_overview_screen.dart';
@@ -13,9 +14,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     //this is a data container
     //we register a provider
-    return ChangeNotifierProvider(
-      create: (context) =>
-          Products(), //it should return a new instance of provided class
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => Products(),
+        ), //it should return a new instance of provided class
+        ChangeNotifierProvider(
+          create: (context) => Cart(),
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(

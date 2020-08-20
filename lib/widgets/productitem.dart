@@ -1,3 +1,4 @@
+import 'package:Online_shop/provider/cart.dart';
 import 'package:Online_shop/provider/product.dart';
 import 'package:Online_shop/screens/product_detail_screen.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
-
+    final cart = Provider.of<Cart>(context);
     return ClipRRect(
       borderRadius: BorderRadius.circular(12.0),
       child: GridTile(
@@ -34,7 +35,13 @@ class ProductItem extends StatelessWidget {
               Icons.shopping_cart,
               color: Colors.deepOrange,
             ),
-            onPressed: () => print('show cart page'),
+            onPressed: () {
+              cart.addItem(
+                product.id,
+                product.title,
+                product.price,
+              );
+            },
           ),
           trailing: Consumer<Product>(
             //consumer only rebuild the sub part of the tree

@@ -44,7 +44,7 @@ class Products with ChangeNotifier {
     ),
     Product(
         id: 'p5',
-        title: 'Warn fur coat',
+        title: 'Warm fur coat',
         description: 'So Comfortable',
         price: 200,
         imageUrl:
