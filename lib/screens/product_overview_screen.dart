@@ -1,7 +1,10 @@
 //this will show over all product on a screen
 
+import 'package:Online_shop/provider/cart.dart';
+import 'package:Online_shop/widgets/badge.dart';
 import 'package:Online_shop/widgets/productgrid.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 enum FilterOptions {
   Favorites,
@@ -48,6 +51,18 @@ class _ProductOverViewScreenState extends State<ProductOverViewScreen> {
                 value: FilterOptions.All,
               ),
             ],
+          ),
+          Consumer<Cart>(
+            builder: (context, cartData, childe) => Badge(
+              child: childe,
+              value: cartData.itemCount.toString(),
+            ),
+            child: IconButton(
+              icon: Icon(
+                Icons.shopping_cart,
+              ),
+              onPressed: () {},
+            ),
           )
         ],
       ),

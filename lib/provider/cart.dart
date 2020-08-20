@@ -23,6 +23,12 @@ class Cart with ChangeNotifier {
     return {..._items};
   }
 
+  //getting number of items in a cart
+
+  int get itemCount {
+    return _items.length;
+  }
+
   //Now we add an items to our cart
   void addItem(
     String productId,
@@ -52,5 +58,6 @@ class Cart with ChangeNotifier {
         ),
       );
     }
+    notifyListeners();
   }
 }
