@@ -1,3 +1,4 @@
+import 'package:Online_shop/widgets/gradient.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,37 +23,53 @@ class ProductDetailScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(loadedProduct.title),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 300,
-              width: double.infinity,
-              child: Image.network(
-                loadedProduct.imageUrl,
-                fit: BoxFit.cover,
-              ),
-            ),
-            SizedBox(height: 10),
-            Text(
-              '\$${loadedProduct.price}',
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 20,
+      body: gradient(
+        child: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                elevation: 25.0,
+                child: Container(
+                  padding: EdgeInsets.all(10.0),
+                  height: 400,
+                  width: double.infinity,
+                  child: Image.network(
+                    loadedProduct.imageUrl,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 10.0,
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              width: double.infinity,
+              alignment: Alignment.center,
               child: Text(
                 loadedProduct.description,
                 textAlign: TextAlign.center,
-                softWrap: true,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            )
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: Text(
+                loadedProduct.price.toString(),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 17,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+            ),
           ],
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:Online_shop/widgets/gradient.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,9 +17,11 @@ class OrdersScreen extends StatelessWidget {
         title: Text('Your Orders'),
       ),
       drawer: AppDrawer(),
-      body: ListView.builder(
-        itemCount: orderData.orders.length,
-        itemBuilder: (ctx, i) => OrderItem(orderData.orders[i]),
+      body: gradient(
+        child: ListView.builder(
+          itemCount: orderData.orders.length,
+          itemBuilder: (ctx, i) => OrderItem(orderData.orders[i]),
+        ),
       ),
     );
   }
