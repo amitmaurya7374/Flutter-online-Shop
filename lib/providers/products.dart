@@ -66,13 +66,15 @@ class Products with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  void addProduct(Product product) {
+  Future<void> addProduct(Product product) {
     ///for firebase synatax url /collection.json
     const url = 'https://online-shop-f007e.firebaseio.com/products.json';
     //here to store a data in databese we use encode
     //to get a data from database we use decode
     //encode and decode take map of {keys:value}
-    http
+    //after then block complete and give a future that future we retun he
+    //||
+    return http
         .post(
       url,
       body: json.encode(
@@ -86,17 +88,19 @@ class Products with ChangeNotifier {
       ),
     )
         .then((response) {
-      print(json.decode(response.body));
+      print(json.decode(response.body)); //this will give a map of id
       final newProduct = Product(
         title: product.title,
         description: product.description,
         price: product.price,
         imageUrl: product.imageUrl,
-        id: DateTime.now().toString(),
+        id: json.decode(response.body)['name'],
       );
       _items.add(newProduct);
       // _items.insert(0, newProduct); // at the start of the list
       notifyListeners();
+    }).catchError((error) {
+      throw (error); //this will throw a new error that we can use to show alert dialog
     });
   }
 

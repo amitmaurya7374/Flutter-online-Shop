@@ -30,10 +30,10 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
           title: 'MyShop',
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            primarySwatch: Colors.purple,
+            primaryColor: Colors.purple[400],
             accentColor: Colors.deepOrange,
-            fontFamily: 'Lato',
           ),
           home: ProductsOverviewScreen(),
           routes: {
