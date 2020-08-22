@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import './product.dart';
 
 class Products with ChangeNotifier {
+  static const url = 'https://online-shop-f007e.firebaseio.com/products.json';
   List<Product> _items = [
     Product(
       id: 'p1',
@@ -66,9 +67,28 @@ class Products with ChangeNotifier {
   //   notifyListeners();
   // }
 
+  //this method will get(retrive) data from database
+  Future<void> fetchProducts() async {
+    //as this should be fail due to network issues;
+    //wrap this with try catch block
+
+    try {
+      final response = await http.get(url);
+      print(
+        json.decode(response.body),
+      );
+    } catch (error) {
+      throw (error); //throw that error to use in another screen;
+    }
+    notifyListeners();
+  }
+
+  ///this method will add item in a data base using post() request
+
   Future<void> addProduct(Product product) async {
-    ///for firebase synatax url /collection.json
-    const url = 'https://online-shop-f007e.firebaseio.com/products.json';
+    //In post  we need to append data
+    // ///for firebase synatax url /collection.json
+    // const url = 'https://online-shop-f007e.firebaseio.com/products.json';
     //here to store a data in databese we use encode
     //to get a data from database we use decode
     //encode and decode take map of {keys:value}

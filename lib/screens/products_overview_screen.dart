@@ -1,3 +1,4 @@
+import 'package:Online_shop/providers/products.dart';
 import 'package:Online_shop/widgets/gradient.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,33 @@ class ProductsOverviewScreen extends StatefulWidget {
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   var _showOnlyFavorites = false;
+  var _isDidDependancy = true;
+
+  ///Remember :That every thing data related to fetching can be
+  ///Done in initState method so as soon as app start or reloads
+  ///we will see latest data
+  ///And here is a note that initSate run only once when app start
+  /// logic should be in a model class
+  @override
+  void initState() {
+    super.initState();
+    // Provider.of<Products>(context).fetchProducts();//this will give error because of(context) thing does not work here beacuse widget is not fully wired up
+    //Another way a trick to make it happened
+    //Not a better approach
+    // Future.delayed(Duration.zero).then(
+    //     (_) => Provider.of<Products>(context, listen: false).fetchProducts());
+  }
+
+//this will run after initState but before build method
+//As this run multiple time so we create a variable to handle that
+  @override
+  void didChangeDependencies() {
+    if (_isDidDependancy) {
+      Provider.of<Products>(context).fetchProducts();
+    }
+    _isDidDependancy = false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
