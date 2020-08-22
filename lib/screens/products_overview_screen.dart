@@ -57,6 +57,10 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
     super.didChangeDependencies();
   }
 
+  Future<void> _refresh(BuildContext context) async {
+    await Provider.of<Products>(context, listen: false).fetchProducts();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,7 +115,10 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                   backgroundColor: Colors.purple,
                 ),
               )
-            : ProductsGrid(_showOnlyFavorites),
+            : RefreshIndicator(
+                onRefresh: () => _refresh(context),
+                child: ProductsGrid(_showOnlyFavorites),
+              ),
       ),
     );
   }

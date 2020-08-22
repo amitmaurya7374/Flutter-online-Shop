@@ -1,3 +1,4 @@
+import 'package:Online_shop/screens/product_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +18,12 @@ class UserProductItem extends StatelessWidget {
       elevation: 15.0,
       color: Colors.white54,
       child: ListTile(
+        onTap: () {
+          Navigator.of(context).pushNamed(
+            ProductDetailScreen.routeName,
+            arguments: id,
+          );
+        },
         title: Text(
           title,
           style: TextStyle(
