@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import './product.dart';
 
 class Products with ChangeNotifier {
-  static const url = 'https://online-shop-f007e.firebaseio.com/products.json';
   List<Product> _items = [
     // Product(
     //   id: 'p1',
@@ -73,6 +72,7 @@ class Products with ChangeNotifier {
     //wrap this with try catch block
 
     try {
+      const url = 'https://online-shop-f007e.firebaseio.com/products.json';
       final response = await http.get(url);
       //actually we have a map inside map;
       final extracetdData = json.decode(response.body) as Map<String, dynamic>;
@@ -102,7 +102,7 @@ class Products with ChangeNotifier {
   Future<void> addProduct(Product product) async {
     //In post  we need to append data
     // ///for firebase synatax url /collection.json
-    // const url = 'https://online-shop-f007e.firebaseio.com/products.json';
+    const url = 'https://online-shop-f007e.firebaseio.com/products.json';
     //here to store a data in databese we use encode
     //to get a data from database we use decode
     //encode and decode take map of {keys:value}
@@ -138,11 +138,25 @@ class Products with ChangeNotifier {
     }
   }
 
-  void updateProduct(String id, Product newProduct) {
+  Future<void> updateProduct(String id, Product newProduct) async {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {
-      _items[prodIndex] = newProduct;
-      notifyListeners();
+      final url = 'https://online-shop-f007e.firebaseio.com/products/$id.json';
+      try {
+        final response = await http.patch(url,
+            body: jsonEncode({
+              'title': newProduct.title,
+              'description': newProduct.description,
+              'price': newProduct.price,
+              'imageUrl': newProduct.imageUrl,
+            }));
+        _items[prodIndex] = newProduct;
+
+        notifyListeners();
+      } catch (error) {
+        print(error);
+        throw (error);
+      }
     } else {
       print('...');
     }
