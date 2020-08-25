@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:Online_shop/models/http_exception.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import './product.dart';
@@ -170,21 +171,23 @@ class Products with ChangeNotifier {
     final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
     var existingProduct = _items[
         existingProductIndex]; //this will store in memory as reference poit to handle connections error
-    _items.removeAt(existingProductIndex);
-    notifyListeners();
     //handling errors
     //if error: run catch error
     //if no error: run then() block
-    http.delete(url).then((_) {
+    http.delete(url).then((response) {
+      if (response.statusCode >= 400) {
+        //throwing our own exception
+        throw HttpException(
+          'Deletion failed',
+        ); //this is an exception class object;
+      }
       existingProduct = null; //if deletion successed this will run
     }).catchError((_) {
       _items.insert(existingProductIndex, existingProduct);
       notifyListeners();
     });
     // _items.removeWhere((prod) => prod.id == id);
+    _items.removeAt(existingProductIndex);
+    notifyListeners();
   }
 }
-//  final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
-//     var existingProduct = _items[existingProductIndex];
-//     _items.removeAt(existingProductIndex);
-//     notifyListeners();
