@@ -18,6 +18,9 @@ class UserProductItem extends StatelessWidget {
       elevation: 15.0,
       color: Colors.white54,
       child: ListTile(
+        onLongPress: () {
+          Provider.of<Products>(context, listen: false).deleteProduct(id);
+        },
         onTap: () {
           Navigator.of(context).pushNamed(
             ProductDetailScreen.routeName,

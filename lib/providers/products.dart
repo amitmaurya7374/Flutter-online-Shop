@@ -143,6 +143,7 @@ class Products with ChangeNotifier {
     if (prodIndex >= 0) {
       final url = 'https://online-shop-f007e.firebaseio.com/products/$id.json';
       try {
+        // ignore: unused_local_variable
         final response = await http.patch(url,
             body: jsonEncode({
               'title': newProduct.title,
@@ -162,8 +163,28 @@ class Products with ChangeNotifier {
     }
   }
 
+  //here we use optimistic method to delete data
   void deleteProduct(String id) {
-    _items.removeWhere((prod) => prod.id == id);
+    final url = 'https://online-shop-f007e.firebaseio.com/products/$id.json';
+    //here i copy my data before deleting
+    final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
+    var existingProduct = _items[
+        existingProductIndex]; //this will store in memory as reference poit to handle connections error
+    _items.removeAt(existingProductIndex);
     notifyListeners();
+    //handling errors
+    //if error: run catch error
+    //if no error: run then() block
+    http.delete(url).then((_) {
+      existingProduct = null; //if deletion successed this will run
+    }).catchError((_) {
+      _items.insert(existingProductIndex, existingProduct);
+      notifyListeners();
+    });
+    // _items.removeWhere((prod) => prod.id == id);
   }
 }
+//  final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
+//     var existingProduct = _items[existingProductIndex];
+//     _items.removeAt(existingProductIndex);
+//     notifyListeners();
