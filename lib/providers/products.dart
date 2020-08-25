@@ -165,29 +165,45 @@ class Products with ChangeNotifier {
   }
 
   //here we use optimistic method to delete data
-  void deleteProduct(String id) {
+  // void deleteProduct(String id) {
+  //   final url = 'https://online-shop-f007e.firebaseio.com/products/$id.json';
+  //   //here i copy my data before deleting
+  //   final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
+  //   var existingProduct = _items[
+  //       existingProductIndex]; //this will store in memory as reference poit to handle connections error
+  //   //handling errors
+  //   //if error: run catch error
+  //   //if no error: run then() block
+  //   http.delete(url).then((response) {
+  //     if (response.statusCode >= 400) {
+  //       //throwing our own exception
+  //       throw HttpException(
+  //         'Deletion failed',
+  //       ); //this is an exception class object;
+  //     }
+  //     existingProduct = null; //if deletion successed this will run
+  //   }).catchError((_) {
+  //     _items.insert(existingProductIndex, existingProduct);
+  //     notifyListeners();
+  //   });
+  //   // _items.removeWhere((prod) => prod.id == id);
+  //   _items.removeAt(existingProductIndex);
+  //   notifyListeners();
+  // }
+
+//different syntax
+  Future<void> deleteProduct(String id) async {
     final url = 'https://online-shop-f007e.firebaseio.com/products/$id.json';
-    //here i copy my data before deleting
     final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
-    var existingProduct = _items[
-        existingProductIndex]; //this will store in memory as reference poit to handle connections error
-    //handling errors
-    //if error: run catch error
-    //if no error: run then() block
-    http.delete(url).then((response) {
-      if (response.statusCode >= 400) {
-        //throwing our own exception
-        throw HttpException(
-          'Deletion failed',
-        ); //this is an exception class object;
-      }
-      existingProduct = null; //if deletion successed this will run
-    }).catchError((_) {
-      _items.insert(existingProductIndex, existingProduct);
-      notifyListeners();
-    });
-    // _items.removeWhere((prod) => prod.id == id);
+    var existingProduct = _items[existingProductIndex];
     _items.removeAt(existingProductIndex);
     notifyListeners();
+    final response = await http.delete(url);
+    if (response.statusCode >= 400) {
+      _items.insert(existingProductIndex, existingProduct);
+      notifyListeners();
+      throw HttpException('Could not delete product.');
+    }
+    existingProduct = null;
   }
 }

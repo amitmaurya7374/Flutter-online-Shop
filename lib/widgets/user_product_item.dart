@@ -14,12 +14,30 @@ class UserProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scaffold = Scaffold.of(context);
     return Card(
       elevation: 15.0,
       color: Colors.white54,
       child: ListTile(
-        onLongPress: () {
-          Provider.of<Products>(context, listen: false).deleteProduct(id);
+        onLongPress: () async {
+          try {
+            await Provider.of<Products>(context, listen: false)
+                .deleteProduct(id);
+          } catch (error) {
+            //this will give error
+            // Scaffold.of(context).showSnackBar(
+            //   SnackBar(
+            //     content: Text('Delete  Failed! :( '),
+            //   ),
+            // );
+
+            //this is a solution
+            scaffold.showSnackBar(
+              SnackBar(
+                content: Text('Delete  Failed! :( '),
+              ),
+            );
+          }
         },
         onTap: () {
           Navigator.of(context).pushNamed(
@@ -54,9 +72,25 @@ class UserProductItem extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(Icons.delete),
-                onPressed: () {
-                  Provider.of<Products>(context, listen: false)
-                      .deleteProduct(id);
+                onPressed: () async {
+                  try {
+                    await Provider.of<Products>(context, listen: false)
+                        .deleteProduct(id);
+                  } catch (error) {
+                    //this will give error
+                    // Scaffold.of(context).showSnackBar(
+                    //   SnackBar(
+                    //     content: Text('Delete  Failed! :( '),
+                    //   ),
+                    // );
+
+                    //this is a solution
+                    scaffold.showSnackBar(
+                      SnackBar(
+                        content: Text('Delete  Failed! :( '),
+                      ),
+                    );
+                  }
                 },
                 color: Theme.of(context).errorColor,
               ),
